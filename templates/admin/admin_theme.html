@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Theme Settings - Gourmet Delight</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Source Sans Pro', sans-serif; 
+    }
+    
+    :root {
+      --primary: #1a365d;
+      --primary-dark: #0f1e35;
+      --secondary: #2c5282;
+      --accent: #3182ce;
+      --accent-light: #63b3ed;
+      --light: #f7fafc;
+      --light-alt: #edf2f7;
+      --gray: #718096;
+      --gray-light: #a0aec0;
+      --gray-lighter: #e2e8f0;
+      --success: #38a169;
+      --warning: #d69e2e;
+      --danger: #e53e3e;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+      --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.1);
+      --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+      min-height: 100vh;
+      padding: 20px;
+      transition: background 0.5s, color 0.5s;
+      position: relative;
+      overflow-x: hidden;
+      color: var(--primary);
+    }
+    
+    /* Animated Background Elements */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .bg-pattern {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(26, 54, 93, 0.03) 0%, transparent 20%),
+        radial-gradient(circle at 80% 30%, rgba(49, 130, 206, 0.03) 0%, transparent 20%),
+        radial-gradient(circle at 40% 70%, rgba(26, 54, 93, 0.03) 0%, transparent 20%),
+        radial-gradient(circle at 90% 90%, rgba(49, 130, 206, 0.03) 0%, transparent 20%);
+      animation: patternShift 30s ease infinite;
+    }
+    
+    @keyframes patternShift {
+      0%, 100% { 
+        transform: translateX(0) translateY(0); 
+      }
+      25% { 
+        transform: translateX(-20px) translateY(10px); 
+      }
+      50% { 
+        transform: translateX(10px) translateY(-20px); 
+      }
+      75% { 
+        transform: translateX(-10px) translateY(-10px); 
+      }
+    }
+    
+    .bg-line {
+      position: absolute;
+      background: linear-gradient(90deg, transparent, rgba(26, 54, 93, 0.05), transparent);
+      height: 1px;
+      width: 100%;
+      animation: lineMove 20s linear infinite;
+    }
+    
+    @keyframes lineMove {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.03;
+      animation: float 20s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary);
+      color: var(--light);
+      padding: 15px 25px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      box-shadow: var(--shadow-lg);
+      position: sticky;
+      top: 20px;
+      z-index: 100;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(49, 130, 206, 0.1) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    
+    header h1 { 
+      font-size: 28px; 
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+      position: relative;
+      z-index: 1;
+    }
+    
+    header nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    header nav a {
+      color: var(--light); 
+      text-decoration: none; 
+      font-weight: 500;
+      font-size: 16px;
+      transition: 0.3s;
+      position: relative;
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    header nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--accent-light);
+      transition: width 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    header nav a:hover::after {
+      width: 100%;
+    }
+    
+    header nav a:hover { 
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    header nav a.active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    header nav a.active::after {
+      width: 100%;
+    }
+    
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 30px;
+      font-size: 32px;
+      font-family: 'Playfair Display', serif;
+      position: relative;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--accent);
+    }
+    
+    /* Theme Options Layout */
+    .theme-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    
+    .theme-options {
+      background: var(--light);
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      animation: fadeInUp 0.8s ease forwards;
+      border: 1px solid var(--gray-lighter);
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .theme-options h3 {
+      color: var(--primary);
+      margin-bottom: 25px;
+      font-size: 24px;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .option-group {
+      margin-bottom: 25px;
+    }
+    
+    .option-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-size: 16px;
+    }
+    
+    /* Theme Presets */
+    .theme-presets {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    
+    .theme-preset {
+      background: var(--light-alt);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .theme-preset::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+    }
+    
+    .theme-preset.active {
+      border-color: var(--accent);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .theme-preset:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .preset-light::before {
+      background: linear-gradient(90deg, #f8f8f8, #e0e0e0);
+    }
+    
+    .preset-dark::before {
+      background: linear-gradient(90deg, #1d1d1d, #333);
+    }
+    
+    .preset-ocean::before {
+      background: linear-gradient(90deg, #1a535c, #4ecdc4);
+    }
+    
+    .preset-sunset::before {
+      background: linear-gradient(90deg, #ff6b6b, #feca57);
+    }
+    
+    .preset-forest::before {
+      background: linear-gradient(90deg, #134e5e, #71b280);
+    }
+    
+    .preset-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .preset-preview {
+      width: 100%;
+      height: 40px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    
+    /* Form Controls */
+    .form-control {
+      position: relative;
+    }
+    
+    select, input[type="color"], input[type="range"] {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 2px solid var(--gray-lighter);
+      font-size: 14px;
+      transition: 0.3s;
+      background: var(--light-alt);
+    }
+    
+    select:focus, input[type="color"]:focus, input[type="range"]:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 8px rgba(49, 130, 206, 0.2);
+      background: white;
+    }
+    
+    input[type="color"] {
+      height: 50px;
+      cursor: pointer;
+    }
+    
+    .range-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .range-value {
+      min-width: 50px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    
+    /* Color Palette */
+    .color-palette {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    
+    .color-option {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.3s;
+      border: 3px solid transparent;
+    }
+    
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+    
+    .color-option.active {
+      border-color: var(--primary);
+    }
+    
+    /* Preview Section */
+    .preview-section {
+      background: var(--light);
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      animation: fadeInUp 0.8s ease 0.2s forwards;
+      opacity: 0;
+      border: 1px solid var(--gray-lighter);
+    }
+    
+    .preview-header {
+      background: var(--primary);
+      color: var(--light);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .preview-header h3 {
+      color: var(--light);
+      margin: 0;
+      font-size: 20px;
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .preview-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .preview-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: var(--light);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    
+    .preview-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .preview-content {
+      padding: 30px;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.5s, color 0.5s;
+    }
+    
+    .preview-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--gray-lighter);
+      margin-bottom: 20px;
+    }
+    
+    .preview-logo {
+      font-size: 24px;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .preview-nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .preview-nav-link {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    
+    .preview-nav-link:hover {
+      color: var(--accent);
+    }
+    
+    .preview-hero {
+      background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80') center/cover;
+      height: 180px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .preview-hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    .preview-hero-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .preview-hero h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      color: white;
+    }
+    
+    .preview-hero p {
+      font-size: 16px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .preview-features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .preview-feature {
+      background: var(--light-alt);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .preview-feature i {
+      font-size: 24px;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    
+    .preview-feature h4 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    
+    .preview-footer {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-lighter);
+      text-align: center;
+      font-size: 14px;
+      color: var(--gray);
+    }
+    
+    /* Buttons */
+    .btn-save {
+      width: 100%;
+      background: var(--success);
+      border: none;
+      color: var(--light);
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 16px;
+      margin-top: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-save::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .btn-save:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .btn-save:hover {
+      background: #2f855a;
+      transform: scale(1.02);
+      box-shadow: 0 5px 15px rgba(56, 161, 105, 0.3);
+    }
+    
+    .btn-reset {
+      background: var(--light-alt);
+      color: var(--gray);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-right: 10px;
+    }
+    
+    .btn-reset:hover {
+      background: var(--gray-lighter);
+      color: var(--primary);
+    }
+    
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--light);
+      padding: 15px 25px;
+      border-radius: 50px;
+      box-shadow: var(--shadow-xl);
+      z-index: 1000;
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--gray-lighter);
+    }
+    
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    
+    .toast.success {
+      border-left: 4px solid var(--success);
+    }
+    
+    .toast i {
+      font-size: 20px;
+    }
+    
+    .toast.success i {
+      color: var(--success);
+    }
+    
+    /* Dark mode styles */
+    .dark-mode {
+      background: #1e1e1e;
+      color: #f5f5f5;
+    }
+    
+    .dark-mode header {
+      background: #333;
+    }
+    
+    .dark-mode .theme-options,
+    .dark-mode .preview-section {
+      background: #2b2b2b;
+    }
+    
+    .dark-mode .preview-content {
+      background: #333;
+      color: #fff;
+    }
+    
+    .dark-mode .preview-feature {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .dark-mode .preview-footer {
+      border-top-color: rgba(255, 255, 255, 0.1);
+      color: #aaa;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      header h1 {
+        font-size: 24px;
+      }
+      
+      header nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .theme-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .theme-presets {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .preview-features {
+        grid-template-columns: 1fr;
+      }
+      
+      .preview-nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-animation" id="bgAnimation">
+    <div class="bg-pattern"></div>
+    <div class="bg-line" style="top: 20%;"></div>
+    <div class="bg-line" style="top: 40%; animation-delay: 5s;"></div>
+    <div class="bg-line" style="top: 60%; animation-delay: 10s;"></div>
+    <div class="bg-line" style="top: 80%; animation-delay: 15s;"></div>
+  </div>
+  
+  <div class="container">
+    <header>
+      <h1>Admin Theme Settings</h1>
+      <nav>
+        <a href="admin_dashboard.html">
+          <i class="fas fa-tachometer-alt"></i>
+          Dashboard
+        </a>
+        <a href="admin_menu.html">
+          <i class="fas fa-utensils"></i>
+          Menu
+        </a>
+        <a href="admin_reservations.html">
+          <i class="fas fa-calendar-check"></i>
+          Reservations
+        </a>
+        <a href="admin_theme.html" class="active">
+          <i class="fas fa-palette"></i>
+          Theme Settings
+        </a>
+      </nav>
+    </header>
+
+    <h2>Customize Your Theme</h2>
+
+    <div class="theme-container">
+      <div class="theme-options">
+        <h3>
+          <i class="fas fa-palette"></i>
+          Theme Options
+        </h3>
+        
+        <!-- Theme Presets -->
+        <div class="option-group">
+          <label>Theme Presets</label>
+          <div class="theme-presets">
+            <div class="theme-preset preset-light" data-theme="light">
+              <div class="preset-name">Light</div>
+              <div class="preset-preview" style="background: #f8f8f8;"></div>
+            </div>
+            <div class="theme-preset preset-dark" data-theme="dark">
+              <div class="preset-name">Dark</div>
+              <div class="preset-preview" style="background: #1d1d1d;"></div>
+            </div>
+            <div class="theme-preset preset-ocean" data-theme="ocean">
+              <div class="preset-name">Ocean</div>
+              <div class="preset-preview" style="background: linear-gradient(135deg, #1a535c, #4ecdc4);"></div>
+            </div>
+            <div class="theme-preset preset-sunset" data-theme="sunset">
+              <div class="preset-name">Sunset</div>
+              <div class="preset-preview" style="background: linear-gradient(135deg, #ff6b6b, #feca57);"></div>
+            </div>
+            <div class="theme-preset preset-forest" data-theme="forest">
+              <div class="preset-name">Forest</div>
+              <div class="preset-preview" style="background: linear-gradient(135deg, #134e5e, #71b280);"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Color Options -->
+        <div class="option-group">
+          <label for="colorPicker">Accent Color</label>
+          <div class="form-control">
+            <input type="color" id="colorPicker" value="#3182ce">
+          </div>
+          <div class="color-palette">
+            <div class="color-option" style="background: #3182ce;" data-color="#3182ce"></div>
+            <div class="color-option" style="background: #2a9d8f;" data-color="#2a9d8f"></div>
+            <div class="color-option" style="background: #f4a261;" data-color="#f4a261"></div>
+            <div class="color-option" style="background: #457b9d;" data-color="#457b9d"></div>
+            <div class="color-option" style="background: #e76f51;" data-color="#e76f51"></div>
+            <div class="color-option" style="background: #264653;" data-color="#264653"></div>
+          </div>
+        </div>
+        
+        <!-- Font Options -->
+        <div class="option-group">
+          <label for="fontPicker">Font Style</label>
+          <div class="form-control">
+            <select id="fontPicker">
+              <option value="'Source Sans Pro', sans-serif">Source Sans Pro (Default)</option>
+              <option value="'Roboto', sans-serif">Roboto</option>
+              <option value="'Open Sans', sans-serif">Open Sans</option>
+              <option value="'Montserrat', sans-serif">Montserrat</option>
+              <option value="'Playfair Display', serif">Playfair Display</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Border Radius -->
+        <div class="option-group">
+          <label for="borderRadius">Border Radius</label>
+          <div class="range-container">
+            <input type="range" id="borderRadius" min="0" max="20" value="8">
+            <div class="range-value" id="borderRadiusValue">8px</div>
+          </div>
+        </div>
+        
+        <!-- Animation Speed -->
+        <div class="option-group">
+          <label for="animationSpeed">Animation Speed</label>
+          <div class="range-container">
+            <input type="range" id="animationSpeed" min="0" max="10" value="5">
+            <div class="range-value" id="animationSpeedValue">5</div>
+          </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="option-group">
+          <div style="display: flex; gap: 10px;">
+            <button class="btn-reset" id="resetBtn">
+              <i class="fas fa-undo"></i> Reset
+            </button>
+            <button class="btn-save" id="saveBtn">
+              <i class="fas fa-save"></i> Apply Theme
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Preview Section -->
+      <div class="preview-section">
+        <div class="preview-header">
+          <h3>Live Preview</h3>
+          <div class="preview-actions">
+            <button class="preview-btn" id="togglePreview">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+          </div>
+        </div>
+        <div class="preview-content" id="previewContent">
+          <div class="preview-nav">
+            <div class="preview-logo">Food Mahal</div>
+            <div class="preview-nav-links">
+              <a href="#" class="preview-nav-link">Home</a>
+              <a href="#" class="preview-nav-link">Menu</a>
+              <a href="#" class="preview-nav-link">Reservations</a>
+            </div>
+          </div>
+          
+          <div class="preview-hero">
+            <div class="preview-hero-content">
+              <h2>Welcome to Food Mahal</h2>
+              <p>Experience the finest flavors and a delightful ambiance</p>
+            </div>
+          </div>
+          
+          <div class="preview-features">
+            <div class="preview-feature">
+              <i class="fas fa-utensils"></i>
+              <h4>Exquisite Cuisine</h4>
+              <p>Fresh ingredients, expertly prepared</p>
+            </div>
+            <div class="preview-feature">
+              <i class="fas fa-concierge-bell"></i>
+              <h4>Premium Service</h4>
+              <p>Attentive staff, personalized experience</p>
+            </div>
+            <div class="preview-feature">
+              <i class="fas fa-glass-cheers"></i>
+              <h4>Signature Drinks</h4>
+              <p>Handcrafted cocktails and beverages</p>
+            </div>
+            <div class="preview-feature">
+              <i class="fas fa-heart"></i>
+              <h4>Memorable Moments</h4>
+              <p>Creating experiences that last a lifetime</p>
+            </div>
+          </div>
+          
+          <div class="preview-footer">
+            &copy; 2025 Food Mahal. All rights reserved.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage">Theme applied successfully!</span>
+  </div>
+
+  <script>
+    // Initialize background animation
+    function initBackgroundAnimation() {
+      const bgAnimation = document.getElementById('bgAnimation');
+      const colors = ['#1a365d', '#2c5282', '#3182ce', '#63b3ed', '#4299e1'];
+      
+      for (let i = 0; i < 8; i++) {
+        const circle = document.createElement('div');
+        circle.classList.add('bg-circle');
+        
+        const size = Math.random() * 200 + 50;
+        circle.style.width = `${size}px`;
+        circle.style.height = `${size}px`;
+        
+        circle.style.left = `${Math.random() * 100}%`;
+        circle.style.top = `${Math.random() * 100}%`;
+        
+        circle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        circle.style.opacity = '0.03';
+        
+        circle.style.animationDelay = `${Math.random() * 5}s`;
+        circle.style.animationDuration = `${Math.random() * 10 + 15}s`;
+        
+        bgAnimation.appendChild(circle);
+      }
+    }
+    
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      
+      toastMessage.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+    
+    // Theme settings
+    let currentTheme = {
+      mode: 'light',
+      accentColor: '#3182ce',
+      font: "'Source Sans Pro', sans-serif",
+      borderRadius: 8,
+      animationSpeed: 5
+    };
+    
+    // DOM elements
+    const modeSelector = document.getElementById("mode");
+    const colorPicker = document.getElementById("colorPicker");
+    const fontPicker = document.getElementById("fontPicker");
+    const borderRadiusSlider = document.getElementById("borderRadius");
+    const borderRadiusValue = document.getElementById("borderRadiusValue");
+    const animationSpeedSlider = document.getElementById("animationSpeed");
+    const animationSpeedValue = document.getElementById("animationSpeedValue");
+    const saveBtn = document.getElementById("saveBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const previewContent = document.getElementById("previewContent");
+    const togglePreviewBtn = document.getElementById("togglePreview");
+    
+    // Theme presets
+    const themePresets = {
+      light: {
+        mode: 'light',
+        accentColor: '#3182ce',
+        font: "'Source Sans Pro', sans-serif",
+        borderRadius: 8,
+        animationSpeed: 5
+      },
+      dark: {
+        mode: 'dark',
+        accentColor: '#3182ce',
+        font: "'Source Sans Pro', sans-serif",
+        borderRadius: 8,
+        animationSpeed: 5
+      },
+      ocean: {
+        mode: 'light',
+        accentColor: '#2a9d8f',
+        font: "'Roboto', sans-serif",
+        borderRadius: 12,
+        animationSpeed: 3
+      },
+      sunset: {
+        mode: 'light',
+        accentColor: '#f4a261',
+        font: "'Montserrat', sans-serif",
+        borderRadius: 6,
+        animationSpeed: 7
+      },
+      forest: {
+        mode: 'light',
+        accentColor: '#2a9d8f',
+        font: "'Open Sans', sans-serif",
+        borderRadius: 10,
+        animationSpeed: 4
+      }
+    };
+    
+    // Apply theme to preview
+    function applyThemeToPreview() {
+      // Apply mode
+      if (currentTheme.mode === 'dark') {
+        previewContent.classList.add('dark-mode');
+      } else {
+        previewContent.classList.remove('dark-mode');
+      }
+      
+      // Apply accent color
+      const accentElements = previewContent.querySelectorAll('.preview-logo, .preview-nav-link, .preview-feature i');
+      accentElements.forEach(el => {
+        el.style.color = currentTheme.accentColor;
+      });
+      
+      // Apply font
+      previewContent.style.fontFamily = currentTheme.font;
+      
+      // Apply border radius
+      const elementsWithRadius = previewContent.querySelectorAll('.preview-hero, .preview-feature');
+      elementsWithRadius.forEach(el => {
+        el.style.borderRadius = `${currentTheme.borderRadius}px`;
+      });
+      
+      // Apply animation speed
+      document.documentElement.style.setProperty('--animation-speed', `${currentTheme.animationSpeed}s`);
+    }
+    
+    // Theme preset selection
+    document.querySelectorAll('.theme-preset').forEach(preset => {
+      preset.addEventListener('click', function() {
+        // Remove active class from all presets
+        document.querySelectorAll('.theme-preset').forEach(p => p.classList.remove('active'));
+        
+        // Add active class to selected preset
+        this.classList.add('active');
+        
+        // Apply preset theme
+        const themeName = this.getAttribute('data-theme');
+        currentTheme = {...themePresets[themeName]};
+        
+        // Update form controls
+        modeSelector.value = currentTheme.mode;
+        colorPicker.value = currentTheme.accentColor;
+        fontPicker.value = currentTheme.font;
+        borderRadiusSlider.value = currentTheme.borderRadius;
+        borderRadiusValue.textContent = `${currentTheme.borderRadius}px`;
+        animationSpeedSlider.value = currentTheme.animationSpeed;
+        animationSpeedValue.textContent = currentTheme.animationSpeed;
+        
+        // Apply theme to preview
+        applyThemeToPreview();
+      });
+    });
+    
+    // Color palette selection
+    document.querySelectorAll('.color-option').forEach(option => {
+      option.addEventListener('click', function() {
+        // Remove active class from all options
+        document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+        
+        // Add active class to selected option
+        this.classList.add('active');
+        
+        // Update color picker and current theme
+        const color = this.getAttribute('data-color');
+        colorPicker.value = color;
+        currentTheme.accentColor = color;
+        
+        // Apply to preview
+        applyThemeToPreview();
+      });
+    });
+    
+    // Form control event listeners
+    modeSelector.addEventListener('change', function() {
+      currentTheme.mode = this.value;
+      applyThemeToPreview();
+    });
+    
+    colorPicker.addEventListener('input', function() {
+      currentTheme.accentColor = this.value;
+      applyThemeToPreview();
+    });
+    
+    fontPicker.addEventListener('change', function() {
+      currentTheme.font = this.value;
+      applyThemeToPreview();
+    });
+    
+    borderRadiusSlider.addEventListener('input', function() {
+      currentTheme.borderRadius = this.value;
+      borderRadiusValue.textContent = `${this.value}px`;
+      applyThemeToPreview();
+    });
+    
+    animationSpeedSlider.addEventListener('input', function() {
+      currentTheme.animationSpeed = this.value;
+      animationSpeedValue.textContent = this.value;
+      applyThemeToPreview();
+    });
+    
+    // Save theme
+    saveBtn.addEventListener('click', () => {
+      // Apply theme to entire page
+      if (currentTheme.mode === 'dark') {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+      
+      document.body.style.fontFamily = currentTheme.font;
+      document.documentElement.style.setProperty('--accent', currentTheme.accentColor);
+      document.documentElement.style.setProperty('--border-radius', `${currentTheme.borderRadius}px`);
+      document.documentElement.style.setProperty('--animation-speed', `${currentTheme.animationSpeed}s`);
+      
+      // Save to localStorage
+      localStorage.setItem('themeSettings', JSON.stringify(currentTheme));
+      
+      showToast('Theme applied successfully!');
+    });
+    
+    // Reset theme
+    resetBtn.addEventListener('click', () => {
+      // Reset to default theme
+      currentTheme = {...themePresets.light};
+      
+      // Update form controls
+      modeSelector.value = currentTheme.mode;
+      colorPicker.value = currentTheme.accentColor;
+      fontPicker.value = currentTheme.font;
+      borderRadiusSlider.value = currentTheme.borderRadius;
+      borderRadiusValue.textContent = `${currentTheme.borderRadius}px`;
+      animationSpeedSlider.value = currentTheme.animationSpeed;
+      animationSpeedValue.textContent = currentTheme.animationSpeed;
+      
+      // Remove active class from all presets
+      document.querySelectorAll('.theme-preset').forEach(p => p.classList.remove('active'));
+      document.querySelector('.preset-light').classList.add('active');
+      
+      // Apply to preview
+      applyThemeToPreview();
+      
+      showToast('Theme reset to default!');
+    });
+    
+    // Toggle preview refresh
+    togglePreviewBtn.addEventListener('click', () => {
+      // Add animation class
+      previewContent.style.animation = 'none';
+      
+      // Force reflow
+      void previewContent.offsetWidth;
+      
+      // Re-add animation
+      previewContent.style.animation = '';
+      
+      showToast('Preview refreshed!');
+    });
+    
+    // Load saved theme
+    function loadSavedTheme() {
+      const savedTheme = localStorage.getItem('themeSettings');
+      
+      if (savedTheme) {
+        currentTheme = JSON.parse(savedTheme);
+        
+        // Update form controls
+        modeSelector.value = currentTheme.mode;
+        colorPicker.value = currentTheme.accentColor;
+        fontPicker.value = currentTheme.font;
+        borderRadiusSlider.value = currentTheme.borderRadius;
+        borderRadiusValue.textContent = `${currentTheme.borderRadius}px`;
+        animationSpeedSlider.value = currentTheme.animationSpeed;
+        animationSpeedValue.textContent = currentTheme.animationSpeed;
+        
+        // Apply to preview
+        applyThemeToPreview();
+      }
+    }
+    
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+      initBackgroundAnimation();
+      loadSavedTheme();
+      
+      // Set first preset as active
+      document.querySelector('.preset-light').classList.add('active');
+      
+      // Set first color option as active
+      document.querySelector('.color-option').classList.add('active');
+    });
+  </script>
+</body>
+</html>

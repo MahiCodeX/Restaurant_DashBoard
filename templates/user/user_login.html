@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Gourmet Delight</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { 
+      margin:0; 
+      padding:0; 
+      box-sizing:border-box; 
+      font-family:'Source Sans Pro', sans-serif; 
+    }
+    
+    :root {
+      --primary: #1a365d;
+      --primary-dark: #0f1e35;
+      --secondary: #2c5282;
+      --accent: #3182ce;
+      --accent-light: #63b3ed;
+      --light: #f7fafc;
+      --light-alt: #edf2f7;
+      --gray: #718096;
+      --gray-light: #a0aec0;
+      --gray-lighter: #e2e8f0;
+      --success: #38a169;
+      --warning: #d69e2e;
+      --danger: #e53e3e;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+      --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.1);
+      --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+      min-height:100vh; 
+      display:flex; 
+      justify-content:center; 
+      align-items:center;
+      position: relative;
+      overflow: hidden;
+      color: var(--primary);
+    }
+    
+    /* Animated Background Elements */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .bg-pattern {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(26, 54, 93, 0.03) 0%, transparent 20%),
+        radial-gradient(circle at 80% 30%, rgba(49, 130, 206, 0.03) 0%, transparent 20%),
+        radial-gradient(circle at 40% 70%, rgba(26, 54, 93, 0.03) 0%, transparent 20%),
+        radial-gradient(circle at 90% 90%, rgba(49, 130, 206, 0.03) 0%, transparent 20%);
+      animation: patternShift 30s ease infinite;
+    }
+    
+    @keyframes patternShift {
+      0%, 100% { 
+        transform: translateX(0) translateY(0); 
+      }
+      25% { 
+        transform: translateX(-20px) translateY(10px); 
+      }
+      50% { 
+        transform: translateX(10px) translateY(-20px); 
+      }
+      75% { 
+        transform: translateX(-10px) translateY(-10px); 
+      }
+    }
+    
+    .bg-line {
+      position: absolute;
+      background: linear-gradient(90deg, transparent, rgba(26, 54, 93, 0.05), transparent);
+      height: 1px;
+      width: 100%;
+      animation: lineMove 20s linear infinite;
+    }
+    
+    @keyframes lineMove {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    /* Food Icons Animation */
+    .food-icons {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    
+    .food-icon {
+      position: absolute;
+      font-size: 24px;
+      color: rgba(26, 54, 93, 0.1);
+      animation: floatIcon 25s infinite linear;
+    }
+    
+    @keyframes floatIcon {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.2; }
+      90% { opacity: 0.2; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    /* Form container */
+    .form-container {
+      background:var(--light);
+      backdrop-filter: blur(10px);
+      padding:25px;
+      border-radius:8px;
+      box-shadow:var(--shadow-lg);
+      width:100%; 
+      max-width:320px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.8s ease forwards;
+      border: 1px solid var(--gray-lighter);
+    }
+    
+    @keyframes fadeInUp {
+      from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
+    }
+    
+    .form-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+    }
+    
+    .form-container:hover {
+      transform: translateY(-3px);
+      box-shadow:var(--shadow-xl);
+    }
+    
+    /* Logo Section */
+    .logo-section {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    
+    .logo {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary);
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .logo i {
+      font-size: 22px;
+    }
+    
+    .tagline {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    
+    h2 { 
+      text-align:center; 
+      color:var(--primary); 
+      margin-bottom:18px;
+      font-size:24px;
+      font-family: 'Playfair Display', serif;
+      position: relative;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+    }
+    
+    .form-group { 
+      margin-bottom:15px;
+      position:relative; 
+    }
+    
+    .form-group label { 
+      display:block; 
+      margin-bottom:6px;
+      font-weight:500; 
+      font-size:13px;
+      color:var(--primary); 
+    }
+    
+    .input-group {
+      position: relative;
+    }
+    
+    .input-group i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      transition: 0.3s;
+      font-size: 14px;
+    }
+    
+    .form-group input {
+      width:100%; 
+      padding:10px 12px 10px 35px;
+      border:1px solid var(--gray-lighter); 
+      border-radius:8px;
+      font-size:14px;
+      transition:0.3s all;
+      background: var(--light-alt);
+    }
+    
+    .form-group input:focus { 
+      border-color:var(--accent); 
+      outline:none; 
+      box-shadow:0 0 8px rgba(49, 130, 206, 0.2);
+    }
+    
+    .form-group input:focus + i {
+      color: var(--accent);
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+    
+    .password-toggle:hover {
+      color: var(--accent);
+    }
+    
+    .error-message {
+      color: var(--danger);
+      font-size: 11px;
+      margin-top: 4px;
+      display: none;
+    }
+    
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .remember-me input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+    }
+    
+    .remember-me label {
+      font-size: 13px;
+      margin: 0;
+      color: var(--gray);
+    }
+    
+    .forgot-password {
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+    
+    .form-group button {
+      width:100%; 
+      padding:12px;
+      border:none; 
+      border-radius:8px;
+      background:var(--accent); 
+      color:var(--light);
+      font-size:15px;
+      font-weight:600; 
+      cursor:pointer; 
+      transition:0.3s all;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .form-group button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .form-group button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .form-group button:hover { 
+      background:var(--secondary); 
+      transform:scale(1.02);
+      box-shadow: 0 5px 15px rgba(49, 130, 206, 0.3);
+    }
+    
+    .form-group button:disabled {
+      background: var(--gray-light);
+      cursor: not-allowed;
+      transform: scale(1);
+    }
+    
+    .button-text {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin: 0 auto;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+    }
+    
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-lighter);
+    }
+    
+    .divider span {
+      padding: 0 8px;
+      color: var(--gray);
+      font-size: 13px;
+    }
+    
+    .social-login {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .social-btn {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--gray-lighter);
+      border-radius: 6px;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    
+    .social-btn:hover {
+      background: var(--light-alt);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .social-btn i {
+      font-size: 16px;
+    }
+    
+    .google { color: #ea4335; }
+    .facebook { color: #1877f2; }
+    
+    .form-footer { 
+      text-align:center; 
+      margin-top:15px;
+      font-size:13px;
+      color:var(--gray); 
+    }
+    
+    .form-footer a { 
+      color:var(--accent); 
+      text-decoration:none; 
+      font-weight:600; 
+      transition: 0.3s;
+    }
+    
+    .form-footer a:hover { 
+      text-decoration:underline;
+    }
+    
+    /* Home Button */
+    .home-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    
+    .home-button:hover {
+      background: var(--secondary);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .home-button i {
+      font-size: 20px;
+    }
+    
+    /* Success Message */
+    .success-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--light);
+      padding: 12px 16px;
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      border: 1px solid var(--gray-lighter);
+    }
+    
+    .success-message.show {
+      transform: translateX(0);
+    }
+    
+    .success-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(56, 161, 105, 0.1);
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    
+    .success-content {
+      flex: 1;
+    }
+    
+    .success-title {
+      font-weight: 600;
+      margin-bottom: 3px;
+      font-size: 14px;
+      color: var(--primary);
+    }
+    
+    .success-text {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    
+    /* Responsive */
+    @media(max-width:480px) {
+      .form-container {
+        padding: 20px 15px;
+        margin: 20px;
+        max-width: 280px;
+      }
+      
+      h2 {
+        font-size: 22px;
+      }
+      
+      .social-login {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .logo {
+        font-size: 24px;
+      }
+      
+      .tagline {
+        font-size: 11px;
+      }
+      
+      .home-button {
+        width: 45px;
+        height: 45px;
+        bottom: 15px;
+        right: 15px;
+      }
+      
+      .home-button i {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-animation" id="bgAnimation">
+    <div class="bg-pattern"></div>
+    <div class="bg-line" style="top: 20%;"></div>
+    <div class="bg-line" style="top: 40%; animation-delay: 5s;"></div>
+    <div class="bg-line" style="top: 60%; animation-delay: 10s;"></div>
+    <div class="bg-line" style="top: 80%; animation-delay: 15s;"></div>
+  </div>
+  
+  <!-- Food Icons Animation -->
+  <div class="food-icons" id="foodIcons"></div>
+
+  <div class="form-container">
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <div class="logo">
+        <i class="fas fa-utensils"></i>
+        Food Mahal
+      </div>
+      <div class="tagline">Delicious food delivered to your doorstep</div>
+    </div>
+    
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-group">
+          <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="error-message" id="emailError">Please enter a valid email address</div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-group">
+          <input type="password" id="password" name="password" placeholder="Enter password" required>
+          <i class="fas fa-lock"></i>
+          <i class="fas fa-eye password-toggle" id="passwordToggle"></i>
+        </div>
+        <div class="error-message" id="passwordError">Password must be at least 6 characters</div>
+      </div>
+      
+      <div class="form-options">
+        <div class="remember-me">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Remember me</label>
+        </div>
+        <a href="#" class="forgot-password">Forgot password?</a>
+      </div>
+      
+      <div class="form-group">
+        <button type="submit" id="loginButton">
+          <span class="button-text">Login</span>
+          <div class="spinner" id="spinner"></div>
+        </button>
+      </div>
+    </form>
+    
+    <div class="divider">
+      <span>OR</span>
+    </div>
+    
+    <div class="social-login">
+      <div class="social-btn" id="googleLogin">
+        <i class="fab fa-google google"></i>
+        <span>Google</span>
+      </div>
+      <div class="social-btn" id="facebookLogin">
+        <i class="fab fa-facebook-f facebook"></i>
+        <span>Facebook</span>
+      </div>
+    </div>
+    
+    <div class="form-footer">
+      Don't have an account? <a href="user_register.html">Register</a>
+    </div>
+  </div>
+
+  <!-- Home Button -->
+  <div class="home-button" id="homeButton" title="Go to Home">
+    <i class="fas fa-home"></i>
+  </div>
+
+  <!-- Success Message -->
+  <div class="success-message" id="successMessage">
+    <div class="success-icon">
+      <i class="fas fa-check"></i>
+    </div>
+    <div class="success-content">
+      <div class="success-title">Login Successful!</div>
+      <div class="success-text">Redirecting to your dashboard...</div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize background animation
+    function initBackgroundAnimation() {
+      const bgAnimation = document.getElementById('bgAnimation');
+      const colors = ['#1a365d', '#2c5282', '#3182ce', '#63b3ed', '#4299e1'];
+      
+      for (let i = 0; i < 8; i++) {
+        const circle = document.createElement('div');
+        circle.classList.add('bg-circle');
+        
+        const size = Math.random() * 200 + 50;
+        circle.style.width = `${size}px`;
+        circle.style.height = `${size}px`;
+        
+        circle.style.left = `${Math.random() * 100}%`;
+        circle.style.top = `${Math.random() * 100}%`;
+        
+        circle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        circle.style.opacity = '0.03';
+        
+        circle.style.animationDelay = `${Math.random() * 5}s`;
+        circle.style.animationDuration = `${Math.random() * 10 + 15}s`;
+        
+        bgAnimation.appendChild(circle);
+      }
+    }
+    
+    // Initialize food icons animation
+    function initFoodIcons() {
+      const foodIcons = document.getElementById('foodIcons');
+      const icons = ['🍕', '🍔', '🍟', '🌮', '🍜', '🍱', '🍣', '🍤', '🥘', '🍝'];
+      
+      for (let i = 0; i < 10; i++) {
+        const icon = document.createElement('div');
+        icon.classList.add('food-icon');
+        icon.textContent = icons[Math.floor(Math.random() * icons.length)];
+        
+        icon.style.left = `${Math.random() * 100}%`;
+        icon.style.animationDelay = `${Math.random() * 20}s`;
+        icon.style.animationDuration = `${Math.random() * 10 + 20}s`;
+        
+        foodIcons.appendChild(icon);
+      }
+    }
+    
+    // Password visibility toggle
+    const passwordToggle = document.getElementById('passwordToggle');
+    const passwordInput = document.getElementById('password');
+    
+    passwordToggle.addEventListener('click', function() {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordToggle.classList.remove('fa-eye');
+        passwordToggle.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        passwordToggle.classList.remove('fa-eye-slash');
+        passwordToggle.classList.add('fa-eye');
+      }
+    });
+    
+    // Form validation
+    function validateEmail(email) {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+    }
+    
+    function validatePassword(password) {
+      return password.length >= 6;
+    }
+    
+    // Show error message
+    function showError(inputId, errorId) {
+      document.getElementById(inputId).style.borderColor = 'var(--danger)';
+      document.getElementById(errorId).style.display = 'block';
+    }
+    
+    // Hide error message
+    function hideError(inputId, errorId) {
+      document.getElementById(inputId).style.borderColor = 'var(--gray-lighter)';
+      document.getElementById(errorId).style.display = 'none';
+    }
+    
+    // Real-time validation
+    document.getElementById('email').addEventListener('blur', function() {
+      if (!validateEmail(this.value)) {
+        showError('email', 'emailError');
+      } else {
+        hideError('email', 'emailError');
+      }
+    });
+    
+    document.getElementById('password').addEventListener('blur', function() {
+      if (!validatePassword(this.value)) {
+        showError('password', 'passwordError');
+      } else {
+        hideError('password', 'passwordError');
+      }
+    });
+    
+    // Form submission
+    const form = document.getElementById("loginForm");
+    const loginButton = document.getElementById('loginButton');
+    const buttonText = document.querySelector('.button-text');
+    const spinner = document.getElementById('spinner');
+    const successMessage = document.getElementById('successMessage');
+    
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      let isValid = true;
+      
+      // Validate email
+      if (!validateEmail(email)) {
+        showError('email', 'emailError');
+        isValid = false;
+      } else {
+        hideError('email', 'emailError');
+      }
+      
+      // Validate password
+      if (!validatePassword(password)) {
+        showError('password', 'passwordError');
+        isValid = false;
+      } else {
+        hideError('password', 'passwordError');
+      }
+      
+      if (!isValid) {
+        return;
+      }
+      
+      // Show loading state
+      loginButton.disabled = true;
+      buttonText.style.display = 'none';
+      spinner.style.display = 'block';
+      
+      // Simulate API call
+      setTimeout(() => {
+        // Hide loading state
+        loginButton.disabled = false;
+        buttonText.style.display = 'inline';
+        spinner.style.display = 'none';
+        
+        // Show success message
+        successMessage.classList.add('show');
+        
+        // Reset form
+        form.reset();
+        
+        // Hide success message after 3 seconds and redirect to dashboard
+        setTimeout(() => {
+          successMessage.classList.remove('show');
+          // Redirect to the dashboard
+          window.location.href = 'user_dashboard.html';
+        }, 3000);
+      }, 1500);
+    });
+    
+    // Social login handlers
+    document.getElementById('googleLogin').addEventListener('click', function() {
+      // In a real app, you would implement Google OAuth
+      alert("Google login would be implemented here");
+    });
+    
+    document.getElementById('facebookLogin').addEventListener('click', function() {
+      // In a real app, you would implement Facebook OAuth
+      alert("Facebook login would be implemented here");
+    });
+    
+    // Forgot password handler
+    document.querySelector('.forgot-password').addEventListener('click', function(e) {
+      e.preventDefault();
+      // In a real app, you would navigate to the forgot password page
+      alert("Forgot password functionality would be implemented here");
+    });
+    
+    // Home button handler
+    document.getElementById('homeButton').addEventListener('click', function() {
+      // Navigate to home page
+      window.location.href = '/index.html';
+    });
+    
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+      initBackgroundAnimation();
+      initFoodIcons();
+    });
+  </script>
+</body>
+</html>
